@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Concert Form</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+      <link rel="stylesheet" href="/css/styles.css">
+    
+</head>
+<body>
+<div class="content-wrapper">
+	<h1>Concert</h1>
+	<form method="post" action="#" th:action="@{/saveconcert}"  th:object= ${concert} >
+	<p class="error-wrapper">Name: <input type="text" th:field="${concert.concert_name}" />   
+		<span class="error-icon" th:if="${#fields.hasErrors('concert_name')}" th:title="${#fields.errors('concert_name')}">!</span>
+	</p>
+	<p>Date: <input type="date" th:field="${concert.date}" required /></p>
+	<div class="input-container">
+	<p class="error-wrapper">Venue: <input type="text" th:field="${concert.venue}" />
+		<span class="error-icon" th:if="${#fields.hasErrors('venue')}" th:title="${#fields.errors('venue')}">!</span>
+	</p>
+	</div>
+	<div class="input-container">
+	<p class="error-wrapper">City: <input type="text" th:field="${concert.city}" />
+		<span class="error-icon" th:if="${#fields.hasErrors('city')}" th:title="${#fields.errors('city')}">!</span>
+	</p>
+	</div>
+	
+	<div class="option-select">						
+		  	<label for="artistlist">Artist</label>
+			 <select id="artistlist" th:field="*{artist}" class="form-control">
+       			<option th:each="artist: ${artists}" th:value="${artist.artist_id}" th:text="${artist.artist_name}" th:selected="${concert.artist == artist}"></option>
+    		</select>
+	
+			<label for="concerttypelist">Concert Type</label>
+			 <select id="concerttypelist" th:field="*{concertType}" class="form-control">
+       			<option th:each="concertType: ${concertTypes}" th:value="${concertType.concertType_id}" th:text="${concertType.concertType_name}" th:selected="${concert.concertType == concertType}"></option>
+    		</select>
+    			</div>
+    		<div class="form-btn">	
+    		
+	<input type="submit" value="Submit" class="btn green-btn"/> <input type="reset" value="Reset" class="btn blue-btn"/>
+				<a href="/" class="btn green-btn">Back to concert list</a>
+				</div>
+	</form>
+    
+</div>
+
+</body>
+</html>

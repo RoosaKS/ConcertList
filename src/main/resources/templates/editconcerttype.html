@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Concert Types</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <link rel="stylesheet" href="/css/styles.css">
+
+
+</head>
+<body>
+<div class="content-wrapper">
+
+	<h1>Edit Concert Type</h1>
+	<div>
+		<form th:object="${concertType}" th:action="@{../saveconcerttype}" action="#" method="post">
+			<input type="hidden" th:field="*{concertType_id}" class="form-control"/>
+			<p>Name: <input type="text" th:field="*{concertType_name}" /> </p>
+			
+			    			<div class="form-btn">
+			
+			<input type="submit" class="btn green-btn" value="Save"></input>
+							<a href="/concerttypes" class="btn blue-btn">Back to concert list</a>
+			</div>
+		</form>
+	</div>
+	</div>
+</body>
+</html>

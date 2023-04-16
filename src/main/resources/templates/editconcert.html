@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Concerts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+          <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+<div class="content-wrapper">
+
+	<h1>Edit Concert</h1>
+	<div>
+		<form th:object="${concert}" th:action="@{../saveconcert}" action="#" method="post">
+			<input type="hidden" th:field="*{concert_id}" class="form-control"/>
+			<p>Name: <input type="text" th:field="*{concert_name}" /> </p>
+			<p>Date: <input type="text" th:field="*{date}" required/> </p>
+			<p>Venue: <input type="text" th:field="*{venue}" /> </p>
+			<p>City: <input type="text" th:field="*{city}" /> </p>
+		  	
+		  		<div class="option-select">						
+		  	
+		  	<label for="artistlist">Artist</label>
+			 <select id="artistlist" th:field="*{artist}" class="form-control">
+       			<option th:each="artist: ${artists}" th:value="${artist.artist_id}" th:text="${artist.artist_name}"></option>
+    		</select>
+	
+			<label for="concerttypelist">Concert Type</label>
+			 <select id="concerttypelist" th:field="*{concertType}" class="form-control">
+       			<option th:each="concertType: ${concertTypes}" th:value="${concertType.concertType_id}" th:text="${concertType.concertType_name}"></option>
+    		</select>
+    		</div>
+    		
+			    		<div class="form-btn">	
+			
+			<input type="submit" class="btn green-btn" value="Save"></input>
+							<a href="/" class="btn blue-btn">Back to concert list</a>
+							</div>
+			
+		</form>
+	</div>
+	
+	</div>
+</body>
+</html>

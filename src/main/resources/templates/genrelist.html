@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Genre List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <link rel="stylesheet" href="/css/styles.css">
+
+    <script src="js/sorting.js"></script>
+
+</head>
+<body>
+<div class="container">
+	<div class="col-md-7">
+		<h1>Genres</h1>
+	</div>
+	
+	<div class="col-md-3" style="padding:20px 0">
+		<form action="/genres/search" method="get">
+			 <input type="text" name="query"  th:value="${query}" placeholder="Search...">
+			 <button type="submit" class="btn btn-sm search">Search</button>
+		</form>
+	</div>
+	
+	<div class="col-md-2" style="padding:20px 0" sec:authorize="hasAnyAuthority('ADMIN', 'USER')" >
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+		</form>
+	</div>
+	
+	<table class="table table-striped" id="myTable">
+		<tr>
+			<th onclick="sortTable(0)">Genre Name</th>
+			<th></th>
+			<th></th>
+			
+			
+		</tr>
+
+		<tr th:each="genre : ${genres}">
+			<td th:text="${genre.genre_name}">name</td>
+
+			<td><a th:href="@{/genres/edit/{genre_id}(genre_id=${genre.getGenre_id})}" class="btn edit-btn">Edit</a></td>
+
+			<td><a th:href="@{/genres/delete/{genre_id}(genre_id=${genre.getGenre_id})}" class="btn btn-danger">Delete</a></td>
+			
+
+		</tr>
+	</table>
+	
+			<a href="/newgenre" class="btn green-btn">Add new genre</a>
+			
+			<a href="/" class="btn blue-btn">Back to concert list</a>
+	
+	</div>		
+	
+</body>
+</html>

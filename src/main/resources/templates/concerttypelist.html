@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>ConcertType List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <link rel="stylesheet" href="/css/styles.css">
+
+    <script src="js/sorting.js"></script>
+
+</head>
+<body>
+<div class="container">
+	<div class="col-md-7">
+		<h1>Concert types</h1>
+	</div>
+	
+	<div class="col-md-3" style="padding:20px 0">
+		<form action="/concerttypes/search" method="get">
+			 <input type="text" name="query"  th:value="${query}" placeholder="Search...">
+			 <button type="submit" class="btn btn-sm search">Search</button>
+		</form>
+	</div>
+	
+	<div class="col-md-2" style="padding:20px 0" sec:authorize="hasAnyAuthority('ADMIN', 'USER')" >
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+		</form>
+	</div>
+	
+	
+	<table class="table table-striped" id="myTable">
+		<tr>
+			<th onclick="sortTable(0)">Concert Type Name</th>
+			<th></th>
+			<th></th>
+			
+		
+		</tr>
+
+		<tr th:each="concertType : ${concertTypes}">
+			<td th:text="${concertType.concertType_name}">name</td>
+
+			<td><a th:href="@{/concerttypes/edit/{concertType_id}(concertType_id=${concertType.getConcertType_id})}" class="btn edit-btn">Edit</a></td>
+
+			<td><a th:href="@{/concerttypes/delete/{concertType_id}(concertType_id=${concertType.getConcertType_id})}" class="btn btn-danger">Delete</a></td>
+			
+		</tr>
+	</table>
+	
+			<a href="/newconcerttype" class="btn green-btn">Add new concert type</a>
+			
+			<a href="/" class="btn blue-btn">Back to concert list</a>
+			
+	
+</body>
+</html>

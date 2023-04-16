@@ -1,0 +1,114 @@
+.error {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.error-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.error-message {
+  position: absolute;
+  top: -25px;
+  left: 0;
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.error-wrapper {
+  display: inline-block;
+}
+
+.input-container{
+	display:flex;
+}
+
+.search {
+color: #fff;
+background-color: #5cb85c;
+border-color: #4cae4c;
+}
+
+.search:hover{
+	background-color: darkgreen;
+  text-decoration: none;
+  color: #fff;
+}
+
+.edit-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.edit-btn:hover {
+  background-color: #0062cc;
+  color: #fff;
+  cursor: pointer;
+}
+
+
+.login-btn {
+  background-color: #6a0dad;
+  color: #fff;
+  border: none;
+  
+}
+
+.login-btn:hover {
+  background-color: #9400d3;
+    color: #fff;
+  
+}
+
+.green-btn {
+	background-color: #00CC66;
+	color: #fff;
+}
+  
+.green-btn:hover {
+	background-color: #9DD1B9;
+	color: #fff;
+}
+
+.blue-btn {
+	background-color: #6495ED;
+	color: #fff;
+}
+
+.blue-btn:hover {
+	background-color: #87CEEB;
+	color: #fff;
+}
+
+.content-wrapper{
+	 margin: 0 auto;
+  width: 80%;
+}
+
+.option-select{
+	  width: 20%;
+}
+
+.form-btn{
+	padding: 20px 0;
+}

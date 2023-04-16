@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Artist Genre Form</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+          <link rel="stylesheet" href="/css/styles.css">
+    
+</head>
+<body>
+<div class="content-wrapper">
+	<h1>Artist Genre</h1>
+	<form method="post" action="#" th:action="@{/savegenre}"  th:object= ${genre} >
+	<p class="error-wrapper">Name: <input type="text" th:field="${genre.genre_name}" />
+		<span class="error-icon" th:if="${#fields.hasErrors('genre_name')}" th:title="${#fields.errors('genre_name')}">!</span>
+	</p>
+
+	
+	
+    			<div class="form-btn">
+    		
+	<input type="submit" value="Submit" class="btn green-btn" /> <input type="reset" value="Reset" class="btn blue-btn"/>
+				<a href="/genres" class="btn green-btn">Back to concert list</a>
+	
+	</div>
+	</form>
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Concert List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <link rel="stylesheet" href="/css/styles.css">
+
+
+    <script src="js/sorting.js"></script>
+
+</head>
+<body>
+<div class="container">
+	<div class="col-md-3">
+		<h1>Concerts</h1>
+	</div>
+	
+	<div class="col-md-4" sec:authorize="isAuthenticated()">
+		<h3>Welcome <span sec:authentication="name"></span></h3>
+	</div>
+	
+	<div class="col-md-3" sec:authorize="hasAnyAuthority('ADMIN', 'USER')" style="padding:20px 0">
+		<form action="/search" method="get">
+			 <input type="text" name="query"  th:value="${query}" placeholder="Search...">
+			 <button type="submit" class="btn btn-sm search">Search</button>
+		</form>
+	</div>
+	
+	
+	<div class="col-md-2" style="padding:20px 0" sec:authorize="hasAnyAuthority('ADMIN', 'USER')" >
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+			<p></p>
+		</form>
+	</div>
+	
+	
+	<div sec:authorize="!isAuthenticated()"  class="col-md-5" style="padding:20px 0">
+		<form action="/search" method="get">
+			 <input type="text" name="query"  th:value="${query}" placeholder="Search...">
+			 <button type="submit" class="btn btn-sm search">Search</button>
+		</form>
+	</div>
+	
+	<div  sec:authorize="!isAuthenticated()" class="col-md-4" style="padding:20px 0">
+	<form th:action="@{/login}" method="post">
+        <input type="text" name="username" placeholder="Username"/>
+        <input type="password" name="password" placeholder="Password"/>
+        <input type="submit" value="Log in" class="btn btn-sm login-btn"/>
+    </form>
+      <p>Don't have an account? <a href="/signup">Sign up</a></p>
+	</div>
+	
+	<table class="table table-striped" id="myTable" >
+		<tr>
+			<th onclick="sortTable(0)">Name</th>
+			<th onclick="sortTable(1)">Date</th>
+			<th onclick="sortTable(2)">Venue</th>
+			<th onclick="sortTable(3)">City</th>
+			<th onclick="sortTable(4)">Artist</th>
+			<th onclick="sortTable(5)">Concert Type</th>
+			<th sec:authorize="hasAnyAuthority('ADMIN', 'USER')"> </th>
+			<th sec:authorize="hasAuthority('ADMIN')"> </th>
+			
+			
+		</tr>
+
+		<tr th:each="concert : ${concerts}">
+		
+			<td th:text="${concert.concert_name}">name</td>
+			<td th:text="${concert.date}">date</td>
+			<td th:text="${concert.venue}">venue</td>
+			<td th:text="${concert.city}">city</td>
+			<td th:text="${concert.artist.artist_name}"></td> 	
+			<td th:text="${concert.concertType.concertType_name}"></td> 		
+			
+			<td sec:authorize="hasAnyAuthority('ADMIN', 'USER')"><a th:href="@{/edit/{concert_id}(concert_id=${concert.getConcert_id})}" class="btn edit-btn">Edit</a></td>
+			
+			<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{concert_id}(concert_id=${concert.getConcert_id})}" class="btn btn-danger">Delete</a></td>
+			
+
+		</tr>
+	</table>
+	
+		<td sec:authorize="hasAnyAuthority('ADMIN', 'USER')"><a href="/newconcert" class="btn green-btn">Add new concert</a></td>
+		
+		<td sec:authorize="hasAuthority('ADMIN')"><a href="/artists" class="btn blue-btn">See all artists</a></td>
+		<td sec:authorize="hasAuthority('ADMIN')"><a href="/genres" class="btn green-btn">See all genres</a></td>
+		<td sec:authorize="hasAuthority('ADMIN')"><a href="/concerttypes" class="btn blue-btn">See all concert types</a></td>
+		
+		<!-- <td sec:authorize="hasAuthority('ADMIN')"><a href="/h2-console" class="btn green-btn">H2-console</a></td>-->
+		
+		
+		
+</div>
+			
+</body>
+</html>

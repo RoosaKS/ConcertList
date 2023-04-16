@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Artists</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <link rel="stylesheet" href="/css/styles.css">
+
+
+</head>
+<body>
+<div class="content-wrapper">
+
+	<h1>Edit Artist</h1>
+	<div>
+		<form th:object="${artist}" th:action="@{../saveartist}" action="#" method="post">
+			<input type="hidden" th:field="*{artist_id}" class="form-control"/>
+			<p>Name: <input type="text" th:field="*{artist_name}" /> </p>
+			
+				<div class="option-select">	
+			
+		  	<label for="genrelist">Artist Genre</label>
+			 <select id="genrelist" th:field="*{genre}" class="form-control">
+       			<option th:each="genre: ${genres}" th:value="${genre.genre_id}" th:text="${genre.genre_name}"></option>
+    		</select>
+	</div>
+			    <div class="form-btn">	
+			
+			<input type="submit" class="btn green-btn" value="Save"></input>
+			<a href="/artists" class="btn blue-btn">Back to artist list</a>
+			</div>
+		</form>
+	</div>
+	
+	</div>
+</body>
+</html>
