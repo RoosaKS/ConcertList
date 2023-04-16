@@ -16,4 +16,9 @@ public interface ArtistRepository extends CrudRepository<Artist,Long>{
 	
 	@Query("SELECT a FROM Artist a JOIN a.genre g WHERE g.genre_name = :genre_name")
 	List<Artist> findByGenreName(@Param("genre_name") String genre_name);
+
+	@Query("SELECT a FROM Artist a JOIN a.genre g WHERE g.genre_id = :genre_id")
+	List<Artist> findByQuery(@Param("genre_id") Long genre_id);
+
+
 }

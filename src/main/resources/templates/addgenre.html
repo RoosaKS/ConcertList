@@ -12,6 +12,10 @@
 <div class="content-wrapper">
 	<h1>Artist Genre</h1>
 	<form method="post" action="#" th:action="@{/savegenre}"  th:object= ${genre} >
+	<div th:if="${error}" class="alert alert-danger">
+        <span th:text="${error}"></span>
+    </div>
+	
 	<p class="error-wrapper">Name: <input type="text" th:field="${genre.genre_name}" />
 		<span class="error-icon" th:if="${#fields.hasErrors('genre_name')}" th:title="${#fields.errors('genre_name')}">!</span>
 	</p>

@@ -13,5 +13,9 @@ public interface GenreRepository extends CrudRepository<Genre, Long> {
 	
 	@Query("SELECT g FROM Genre g WHERE g.genre_name = :genre_name")
 	List<Genre> findByGenreName(@Param("genre_name") String genre_name);
+
+	@Query("SELECT g FROM Genre g")
+	List<Genre> findByQuery();
+
 }
 

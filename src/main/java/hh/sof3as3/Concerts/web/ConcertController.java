@@ -42,28 +42,33 @@ public class ConcertController {
 	/*@Autowired
 	private Concert_artistRepository concert_artistRepository; */
 	
+	// Homepage and concert list
 	@RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
 	public String getConcerts(Model model) {
+		// Retrieve all concerts from the repository
 	List<Concert> concerts = (List<Concert>)concertRepository.findAll();
 	
-	 
+	// Add the concert list to the model
 	model.addAttribute("concerts",concerts);
 	return "concertlist";
 	}
 	
+	// API endpoint to retrieve all concerts
 	@RequestMapping(value= "/concerts", method = RequestMethod.GET)
 	public @ResponseBody List<Concert> getConcerts(){
 		return (List<Concert>) concertRepository.findAll();
 	}
 	
+	// API endpoint to retrieve a single concert by ID
 	@RequestMapping(value= "concerts/{concert_id}", method = RequestMethod.GET)
 	public @ResponseBody Optional<Concert> getOneConcert(@PathVariable("concert_id") Long concertId){
 		return concertRepository.findById(concertId);
 	}
 
-	
+	// New concert form
 	@RequestMapping(value = "/newconcert", method = RequestMethod.GET)
 	public String getNewConcertForm(Model model) {
+		// Add empty concert object and lists of artists, genres, and concert types to the model
 		model.addAttribute("concert", new Concert());
 		model.addAttribute("artists", artistRepository.findAll());
 		model.addAttribute("genres", genreRepository.findAll());
@@ -73,9 +78,10 @@ public class ConcertController {
 		return "addconcert";
 	}
 	
+	// Save a new concert
 	@RequestMapping(value = "/saveconcert", method = RequestMethod.POST)
 	public String saveConcert( @Valid @ModelAttribute ("concert") Concert concert, BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) { // validation errors 
+		if (bindingResult.hasErrors()) { // check for validation errors 
 	        model.addAttribute("errors", bindingResult.getAllErrors());
 	        Iterable<Artist> artists = artistRepository.findAll();
 	        model.addAttribute("artists", artists);
@@ -83,17 +89,35 @@ public class ConcertController {
 	        Iterable<ConcertType> concertTypes = concertTypeRepository.findAll();
 	        model.addAttribute("concertTypes", concertTypes);
 
-			return "addconcert";  // return back to form
+			return "addconcert";  // return back to form with validation errors
 		} else { // no validation errors
+			// Check if the concert already exists in the repository
+			List<Concert> existingConcerts = concertRepository.findByQuery(
+	        		 concert.getArtist().getArtist_id(),
+	                 concert.getConcertType().getConcertType_id()
+	            );
+	            if (!existingConcerts.isEmpty()) {
+	                // If the list of existing concerts is not empty, add an error message and return to the "addconcert" view
+	            	model.addAttribute("error", "Concert already exists!");
+	                Iterable<Artist> artists = artistRepository.findAll();
+	                model.addAttribute("artists", artists);
+
+	                Iterable<ConcertType> concertTypes = concertTypeRepository.findAll();
+	                model.addAttribute("concertTypes", concertTypes);
+	                return "addconcert";
+	            }
+	         // Save the concert to the database
 		concertRepository.save(concert);
-		
+
 		return "redirect:/index";
 		}
+	            
 	}
 	
 	@RequestMapping(value = "/delete/{concert_id}", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')") //You can only delete with ADMIN authority
 	public String deleteConcert(@PathVariable("concert_id") Long Id, Model model) {
+	    // Delete the concert with the given ID from the database
 		concertRepository.deleteById(Id);
 		
 		return "redirect:/index";
@@ -102,7 +126,9 @@ public class ConcertController {
 	@RequestMapping(value = "/edit/{concert_id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
 	public String showModConcert(@PathVariable("concert_id") Long id, Model model) {
+	    // Get the concert with the given ID from the database and add it to the model
 		model.addAttribute("concert", concertRepository.findById(id));
+	    // Add all artists, genres, and concert types to the model
 		model.addAttribute("artists", artistRepository.findAll());
 		model.addAttribute("genres", genreRepository.findAll());
 		model.addAttribute("concertTypes", concertTypeRepository.findAll());
@@ -116,7 +142,8 @@ public class ConcertController {
 	
 	@GetMapping("/search") 
 	    public String searchConcerts(@RequestParam("query") String query, Model model){
-		   List<Concert> results = concertRepository.search(query);
+	    // Search for concerts with the given query and add them to the model   
+		List<Concert> results = concertRepository.search(query);
 		    model.addAttribute("concerts", results); 
 		    return "concertlist";
 	    }

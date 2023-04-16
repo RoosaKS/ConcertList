@@ -14,6 +14,7 @@ public interface ConcertTypeRepository extends CrudRepository<ConcertType, Long>
 	@Query("SELECT ct FROM ConcertType ct WHERE ct.concertType_name = :concertType_name")
 	List<ConcertType> findByConcertTypeName(@Param("concertType_name") String concertType_name);
 	
-	
+	@Query("SELECT ct FROM ConcertType ct")
+	List<ConcertType> findByQuery();
 
 }

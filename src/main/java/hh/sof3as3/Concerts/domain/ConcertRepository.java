@@ -17,5 +17,10 @@ public interface ConcertRepository extends CrudRepository<Concert, Long> {
 	@Query("SELECT c FROM Concert c JOIN c.artist a JOIN c.concertType ct WHERE LOWER(c.concert_name) LIKE LOWER(concat('%', :query, '%')) OR LOWER(c.venue) LIKE LOWER(concat('%', :query, '%')) OR c.date LIKE concat('%', :query, '%') OR LOWER(c.city) LIKE LOWER(concat('%', :query, '%')) OR LOWER(a.artist_name) LIKE LOWER(concat('%', :query, '%')) OR LOWER(ct.concertType_name) LIKE LOWER(concat('%', :query, '%'))")
 	List<Concert> search(@Param("query") String query);
 
+	@Query("SELECT c FROM Concert c JOIN c.artist a JOIN c.concertType ct WHERE a.artist_id = :artist_id AND ct.concertType_id = :concertType_id")
+	List<Concert> findByQuery(@Param("artist_id") Long artist_id, @Param("concertType_id") Long concertType_id);
+
+
+
 	
 }

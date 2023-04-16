@@ -13,6 +13,10 @@
 
 	<h1>Concert Type</h1>
 	<form method="post" action="#" th:action="@{/saveconcerttype}"  th:object= ${concertType} >
+	<div th:if="${error}" class="alert alert-danger">
+        <span th:text="${error}"></span>
+    </div>
+	
 	<p class="error-wrapper">Name: <input type="text" th:field="${concertType.concertType_name}" />
 		<span class="error-icon" th:if="${#fields.hasErrors('concertType_name')}" th:title="${#fields.errors('concertType_name')}">!</span>
 	</p>
